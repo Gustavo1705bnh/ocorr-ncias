@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Nova Ocorrência</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Registrar Ocorrência</h2>
+
+  <label>Aluno</label>
+  <input type="text" id="aluno" list="listaAlunos">
+  <datalist id="listaAlunos"></datalist>
+
+  <label>Turma</label>
+  <input type="text" id="turma" readonly>
+
+  <label>Responsável</label>
+  <input type="text" id="responsavel" readonly>
+
+  <label>Telefone</label>
+  <input type="text" id="telefone" readonly>
+
+  <label>Ocorrência</label>
+  <textarea id="ocorrencia"></textarea>
+
+  <button onclick="enviarOcorrencia()">Enviar</button>
+
+  <p id="msg"></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
