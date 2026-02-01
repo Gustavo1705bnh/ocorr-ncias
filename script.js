@@ -1,4 +1,4 @@
-const URL = "COLE_AQUI_A_URL_EXEC_DO_APPS_SCRIPT";
+const URL = "https://script.google.com/macros/s/AKfycbyPpt5PgL8PUTrNVEYjkuhTeWOvn75VzVjfXv0A4tppHBWi_gobkHIKfLJBetTxgnU/exec";
 
 let alunos = [];
 let professorLogado = localStorage.getItem("professor");
