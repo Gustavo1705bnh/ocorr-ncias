@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Nova Ocorrência</title>
+  <title>Registrar Ocorrência</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,10 +18,27 @@
 
 <textarea id="ocorrencia" placeholder="Descreva a ocorrência"></textarea>
 
-<button onclick="enviarOcorrencia()">Enviar</button>
+<button id="btnEnviar">Enviar</button>
 
 <p id="msg"></p>
 
+<!-- IMPORTANTE: script NO FINAL -->
 <script src="script.js"></script>
+
+<script>
+  // 🔒 Bloqueia acesso direto sem login
+  if (!localStorage.getItem("professor")) {
+    window.location.href = "index.html";
+  }
+
+  // Garante que tudo só rode depois do DOM
+  document.addEventListener("DOMContentLoaded", () => {
+    carregarAlunos();
+    document
+      .getElementById("btnEnviar")
+      .addEventListener("click", enviarOcorrencia);
+  });
+</script>
+
 </body>
 </html>
