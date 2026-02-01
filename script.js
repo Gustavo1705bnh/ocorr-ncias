@@ -1,4 +1,4 @@
-const URL = "https://script.google.com/macros/s/AKfycbyM0bVNAtkgJb6vnfMP4yLOivlEn7yvLsPtszLcnBCH6G2c2ZXTIlVcK8eGbuwRSg/exec";
+const URL = "https://script.google.com/macros/s/AKfycbyPpt5PgL8PUTrNVEYjkuhTeWOvn75VzVjfXv0A4tppHBWi_gobkHIKfLJBetTxgnU/exec";
 
 let alunos = [];
 let professorLogado = localStorage.getItem("professor");
