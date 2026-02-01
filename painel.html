@@ -7,28 +7,21 @@
 </head>
 <body>
 
-  <h2>Registrar Ocorrência</h2>
+<h2>Registrar Ocorrência</h2>
 
-  <label>Aluno</label>
-  <input type="text" id="aluno" list="listaAlunos">
-  <datalist id="listaAlunos"></datalist>
+<input id="aluno" list="listaAlunos" placeholder="Aluno">
+<datalist id="listaAlunos"></datalist>
 
-  <label>Turma</label>
-  <input type="text" id="turma" readonly>
+<input id="turma" placeholder="Turma" readonly>
+<input id="responsavel" placeholder="Responsável" readonly>
+<input id="telefone" placeholder="Telefone" readonly>
 
-  <label>Responsável</label>
-  <input type="text" id="responsavel" readonly>
+<textarea id="ocorrencia" placeholder="Descreva a ocorrência"></textarea>
 
-  <label>Telefone</label>
-  <input type="text" id="telefone" readonly>
+<button onclick="enviarOcorrencia()">Enviar</button>
 
-  <label>Ocorrência</label>
-  <textarea id="ocorrencia"></textarea>
+<p id="msg"></p>
 
-  <button onclick="enviarOcorrencia()">Enviar</button>
-
-  <p id="msg"></p>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
