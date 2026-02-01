@@ -1,56 +1,66 @@
-const URL = https://script.google.com/macros/s/AKfycbwM_aM42jeCqqMI0f6Acr1zvn9j9QvRLHGyCJgQwC0xV5tB7sOFStQ97VBhBxAyZ88/exec;
+const URL = "https://script.google.com/macros/s/AKfycbyM0bVNAtkgJb6vnfMP4yLOivlEn7yvLsPtszLcnBCH6G2c2ZXTIlVcK8eGbuwRSg/exec";
 
 let alunos = [];
 let professorLogado = localStorage.getItem("professor");
 
-// 🔐 LOGIN
+// ================= LOGIN =================
 function login() {
-  const nome = document.getElementById("nome").value;
-  const senha = document.getElementById("senha").value;
+  const nome = document.getElementById("nome").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+  const msg = document.getElementById("msg");
 
   if (!/^\d{6}$/.test(senha)) {
-    document.getElementById("msg").innerText = "Senha deve ter 6 dígitos.";
+    msg.innerText = "Senha deve ter 6 dígitos numéricos.";
     return;
   }
 
   fetch(URL, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       tipo: "login",
       nome,
       senha
     })
   })
-  .then(r => r.json())
-  .then(d => {
-    if (d.status === "ok") {
-      localStorage.setItem("professor", d.nome);
-      window.location.href = "painel.html";
-    } else {
-      document.getElementById("msg").innerText = "Login inválido.";
-    }
-  });
+    .then(r => r.json())
+    .then(d => {
+      if (d.status === "ok") {
+        localStorage.setItem("professor", d.nome);
+        window.location.href = "painel.html";
+      } else {
+        msg.innerText = "Login inválido.";
+      }
+    })
+    .catch(() => {
+      msg.innerText = "Erro de conexão.";
+    });
 }
 
-// 👨‍🎓 CARREGAR ALUNOS
-if (document.getElementById("listaAlunos")) {
+// ================= CARREGAR ALUNOS =================
+function carregarAlunos() {
+  if (!document.getElementById("listaAlunos")) return;
+
   fetch(URL, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ tipo: "alunos" })
   })
-  .then(r => r.json())
-  .then(d => {
-    alunos = d;
-    const lista = document.getElementById("listaAlunos");
-    d.forEach(a => {
-      const opt = document.createElement("option");
-      opt.value = a.nome;
-      lista.appendChild(opt);
+    .then(r => r.json())
+    .then(d => {
+      alunos = d;
+      const lista = document.getElementById("listaAlunos");
+      lista.innerHTML = "";
+
+      d.forEach(a => {
+        const opt = document.createElement("option");
+        opt.value = a.nome;
+        lista.appendChild(opt);
+      });
     });
-  });
 }
 
-// AUTOCOMPLETE
+// ================= AUTOCOMPLETE =================
 document.addEventListener("input", e => {
   if (e.target.id === "aluno") {
     const a = alunos.find(x => x.nome === e.target.value);
@@ -62,43 +72,39 @@ document.addEventListener("input", e => {
   }
 });
 
-// 📤 ENVIAR OCORRÊNCIA
+// ================= ENVIAR OCORRÊNCIA =================
 function enviarOcorrencia() {
   const aluno = document.getElementById("aluno").value;
   const turma = document.getElementById("turma").value;
   const ocorrencia = document.getElementById("ocorrencia").value;
-  const telefone = document.getElementById("telefone").value;
+  const msg = document.getElementById("msg");
 
   if (!aluno || !ocorrencia) {
-    document.getElementById("msg").innerText = "Preencha todos os campos.";
+    msg.innerText = "Preencha todos os campos.";
     return;
   }
 
-  const mensagem = `
-📌 Ocorrência Escolar
-
-Aluno: ${aluno}
-Turma: ${turma}
-
-Ocorrência:
-${ocorrencia}
-`;
-
   fetch(URL, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       tipo: "ocorrencia",
       aluno,
       turma,
-      ocorrencia,
       professor: professorLogado,
-      whatsapp: telefone,
-      mensagem
+      ocorrencia
     })
   })
-  .then(r => r.json())
-  .then(() => {
-    document.getElementById("msg").innerText = "Ocorrência registrada com sucesso.";
-    document.getElementById("ocorrencia").value = "";
-  });
+    .then(r => r.json())
+    .then(d => {
+      if (d.status === "ok") {
+        msg.innerText = "Ocorrência registrada com sucesso.";
+        document.getElementById("ocorrencia").value = "";
+      } else {
+        msg.innerText = "Erro ao registrar.";
+      }
+    });
 }
+
+// ================= AUTO =================
+document.addEventListener("DOMContentLoaded", carregarAlunos);
